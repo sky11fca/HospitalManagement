@@ -21,5 +21,15 @@ public class PatientController {
         return patientDAO.getAllPatients();
     }
 
-    //Controller Method based on CRUD OPERATION IN DAO
+    public Patient getPatientByCnp(String cnp) throws SQLException {
+        return patientDAO.getPatientByCnp(cnp);
+    }
+
+    public void updatePatient(Patient patient) throws SQLException {
+        patientDAO.updatePatient(patient);
+    }
+
+    public void deletePatient(int patientId) throws SQLException {
+        patientDAO.deletePatient(patientId);
+    }
 }

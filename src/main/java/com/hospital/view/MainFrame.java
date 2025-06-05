@@ -25,9 +25,9 @@ public class MainFrame extends JFrame
     private void initComponents(){
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Patients", new PatientPanel());
-//        tabbedPane.addTab("Doctors", new DoctorPanel());
-//        tabbedPane.addTab("Appointments", new AppointmentPanel());
-//        tabbedPane.addTab("Medical Records", new RecordPanel());
+        tabbedPane.addTab("Doctors", new DoctorPanel());
+        //tabbedPane.addTab("Appointments", new AppointmentPanel());
+        //tabbedPane.addTab("Medical Records", new RecordPanel());
 
         add(tabbedPane, BorderLayout.CENTER);
     }

@@ -52,6 +52,54 @@ public class PatientDAO {
         }
         return patients;
     }
-
-    //TODO: Think of CRUD Operations: updatePatients deletePatient getPatientById
+    
+    public Patient getPatientByCnp(String cnp) throws SQLException{
+        Patient patient = null;
+        String sql = "SELECT * FROM patients WHERE cnp = ?";
+        
+        try(Connection conn = DatabaseConfig.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, cnp);
+            
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    patient = new Patient();
+                    patient.setPatientId(rs.getInt("patient_id"));
+                    patient.setCnp(rs.getString("cnp"));
+                    patient.setFirstName(rs.getString("first_name"));
+                    patient.setLastName(rs.getString("last_name"));
+                    patient.setBirthDate(rs.getDate("birth_date").toLocalDate());
+                    patient.setBloodType(rs.getString("blood_type"));
+                    patient.setRegistrationDate(rs.getTimestamp("registration_date").toLocalDateTime().toLocalDate());
+                }
+            }
+        }
+        return patient;
+    }
+    
+    
+    public void updatePatient(Patient patient) throws SQLException{
+        String sql = "UPDATE patients SET cnp = ?, first_name = ?, last_name = ?, birth_date = ?, blood_type = ? WHERE patient_id = ?";
+        
+        try(Connection conn = DatabaseConfig.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, patient.getCnp());
+            stmt.setString(2, patient.getFirstName());
+            stmt.setString(3, patient.getLastName());
+            stmt.setDate(4, Date.valueOf(patient.getBirthDate()));
+            stmt.setString(5, patient.getBloodType());
+            stmt.setInt(6, patient.getPatientId());
+            
+            stmt.executeUpdate();
+        }
+    }
+    
+    public void deletePatient(int patientId) throws SQLException{
+        String sql = "DELETE FROM patients WHERE patient_id = ?";
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, patientId);
+            stmt.executeUpdate();
+        }
+    }
 }
