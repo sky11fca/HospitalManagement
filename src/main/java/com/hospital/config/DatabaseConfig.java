@@ -18,9 +18,9 @@ public class DatabaseConfig {
             }
             properties.load(in);
 
-            initializeDatabase();
+            //initializeDatabase();
         }
-        catch (IOException| SQLException e){
+        catch (IOException e){
             throw new RuntimeException(e);
         }
     }
@@ -37,6 +37,25 @@ public class DatabaseConfig {
     }
 
     private static void initializeDatabase() throws SQLException{
-        //TODO: Split the database file, into 2 files and add functionality
+        try(Connection conn = getConnection();
+        InputStream schemaStream = DatabaseConfig.class.getClassLoader().getResourceAsStream("db-schema.sql");
+        InputStream dataStream = DatabaseConfig.class.getClassLoader().getResourceAsStream("db-populate.sql")){
+
+            //execute the schema script
+            if(schemaStream!=null){
+                String schemaSql = new String(schemaStream.readAllBytes());
+                conn.createStatement().execute(schemaSql);
+            }
+
+            //Execute population script
+
+            if(dataStream!= null){
+                String dataSql = new String(schemaStream.readAllBytes());
+                conn.createStatement().execute(dataSql);
+            }
+        }
+        catch(IOException e){
+            throw new SQLException("Something went wrong while initializing the database", e);
+        }
     }
 }

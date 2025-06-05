@@ -1,7 +1,9 @@
 package com.hospital.view;
 
+import com.hospital.view.panels.AppointmentPanel;
 import com.hospital.view.panels.DoctorPanel;
 import com.hospital.view.panels.PatientPanel;
+import com.hospital.view.panels.RecordPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +25,9 @@ public class MainFrame extends JFrame
     private void initComponents(){
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Patients", new PatientPanel());
-        tabbedPane.addTab("Doctors", new DoctorPanel());
-        ///
+//        tabbedPane.addTab("Doctors", new DoctorPanel());
+//        tabbedPane.addTab("Appointments", new AppointmentPanel());
+//        tabbedPane.addTab("Medical Records", new RecordPanel());
 
         add(tabbedPane, BorderLayout.CENTER);
     }
